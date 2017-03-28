@@ -9,6 +9,7 @@
                     <a href="createqrcodepanel.php"><div class="btn btn-default">Create QR Code</div></a>
                     <a href="qrgenerator.php"><div class="btn btn-default">Generate QR Codes</div></a>
                     <a href="updateuserspoints.php"><div class="btn btn-default">Force update points</div></a>
+                    <a href="qruserrel.php"><div class="btn btn-default">Log</div></a>
                 </div>
             </div>
 

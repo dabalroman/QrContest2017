@@ -64,7 +64,7 @@ if($result = $conn->query($sql)) {
     if ($result->num_rows) {
         while($row = $result->fetch_assoc()){
             createRawQRCode($URLPATTERN.$row['data'], $row['url'], $row['data']);
-            echo "<img style='border: 1px solid #eee; width: 340px; float: left' src='".$row['url']."'>";
+            echo "<img style='border: 1px solid #aaa; width: 340px; float: left' src='".$row['url']."'>";
         }
     } else {
         echo "<div class=\"alert alert-info\">No QR to render</div>";
