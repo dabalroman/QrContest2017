@@ -1,19 +1,14 @@
 <?php
 
-require_once('rawQrGenerator.php');
-require_once "connect.php";
+require_once('connect.php');
 
-define("QR_DATA_LENGTH", 10);
-define("QR_DATA_CHARS", "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789");
-define("QR_DIR", "QRCodes/");
+$QR_DATA_LENGTH = 8;
+$QR_DATA_CHARS = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
+$QR_URL = "qrcodes/";
 
 $QRname = $_POST["qrname"];
 $QRvalue = $_POST["qrvalue"];
-$QRdata = createQRData();
-
-$QR = createRawQRCode($QRdata, $QRname, QR_DIR);
-
-echo $QR;
+$QRdata = createQRData($QR_DATA_LENGTH, $QR_DATA_CHARS);
 
 $conn = @new mysqli($host, $db_user, $db_pass, $db_name);
 
@@ -27,33 +22,30 @@ if($result = $conn->query($sql)){
     if($qrExists){
         $_SESSION["error"] = "qr_exist";
         echo "ERR";
-        header('Location: createQRCodePanel.php?src=createQRCode');
+        header('Location: createqrcodepanel.php?src=createQRCode&out=err_qr_exists');
 
     } else {
         echo "EZY";
-        $sql = "INSERT INTO qrs(`NAME`, `DATA`, `VALUE`, `ACTIVE`) VALUES ('$QRname', '$QRdata', '$QRvalue', '1')";
+        $sql = "INSERT INTO qrs(`NAME`, `DATA`, `URL`, `VALUE`, `ACTIVE`) VALUES ('$QRname', '$QRdata', '".$QR_URL.$QRdata.".png', '$QRvalue', '1')";
         if($result = @$conn->query($sql)) {
             unset($_SESSION['error']);
             echo "EZY";
-            header('Location: createQRCodePanel.php?src=createQRCode');
+            header('Location: createqrcodepanel.php?src=createQRCode&out=ok_qr_created');
         } else {
             echo "ERR";
             $_SESSION["error"] = "qr_err";
-            header('Location: createQRCodePanel.php?src=createQRCode');
+            header('Location: createqrcodepanel.php?src=createQRCode&out=err_db');
         }
     }
     $result->free_result();
 }
-
-
-
 $conn->close();
 
 
-function createQRData(){
+function createQRData($QR_DATA_LENGTH, $QR_DATA_CHARS){
     $QRData = "";
-    for($i = 0; $i <= QR_DATA_LENGTH; $i++){
-        $QRData .= QR_DATA_CHARS[rand(0, strlen(QR_DATA_CHARS))];
+    for($i = 0; $i <= $QR_DATA_LENGTH; $i++){
+        $QRData .= substr($QR_DATA_CHARS, rand(0, strlen($QR_DATA_CHARS)), 1);
     }
     return $QRData;
 }

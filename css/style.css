@@ -1,0 +1,29 @@
+
+.float-right{
+    float: right;
+}
+
+.clearfix{
+    clear: both;
+}
+
+.top-buffer{
+    height: 20px;
+}
+
+footer{
+    background-color: #eeeeee;
+    padding: 10px;
+}
+
+.text-gray{
+    color: #aaa;
+}
+
+.min-width-md{
+    min-width: 200px;
+}
+
+.min-width-sm{
+    min-width: 100px;
+}
